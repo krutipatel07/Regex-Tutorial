@@ -1,6 +1,8 @@
-# Title (replace with your title)
+# Regular Expressions
 
-Introductory paragraph (replace this with your text)
+Regular Expressions, or RegEx, are helpful tools used across many programming languages to find a specified combination of characters.  A RegEx allows the programmer to search for any variation of a string matching a pattern instead of being limited to a specific, or "literal", query.  For example, in a large database with multiple email address entries, a RegEx pattern search of `[any name]@[any domain].[any extension]` will easily find all email addresses.
+
+In addition to being powerful search tools, regular expressions can be applied to validate formatting (e.g. passwords and email address), perform quick replacements, and assist with string splitting.
 
 ## Summary
 
@@ -46,4 +48,4 @@ Briefly summarize the regex you will be describing and what you will explain. In
 
 ## Author
 
-A short section about the author with a link to the author's GitHub profile (replace with your information and a link to your profile)
+This gist was written by Kruti Patel, a forensic investigator turned full-stack developer.  To see more of kruti's work, please visit her [GitHub](https://github.com/krutipatel07).
