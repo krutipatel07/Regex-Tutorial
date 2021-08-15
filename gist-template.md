@@ -28,6 +28,9 @@ Briefly summarize the regex you will be describing and what you will explain. In
 Anchors are special characters that identify the position of the searched text.  A caret (`^`) anchor identifies the beginning of a string while a dollar sign (`$`) identifies the end of a string.  A word boundary anchor (`\b`) is used to identify the beginning or end of a word.  Without anchors, the RegEx will search for the identified pattern within any position of a given string. 
 
 ### Quantifiers
+Finally, quantifiers identify how the number of occurrences of the preceeding characters from either the literal character or character set.  Our email RegEx uses a plus (`+`) and brace (`{...}`) quantifiers, as seen here: `([...]+)@([...]+)\.([...]{2,6})`.  The presence of the plus signifies a match for any of the characters found in the preceeding bracket expression at least one time.  The brace specifies a range of matches from `2` to `6` of the characters found in the preceeding bracket expression.
+#### Example
+A RegEx search of `/[a-z\d]{2, 8}@email\.com/` will match the email "l33tc0de@email.com" but not "ilove2code@email.com".  The local-part of the latter is ten characters in length and does not meet the quantifier requirements.
 
 ### OR Operator
 
@@ -42,6 +45,9 @@ In our above bracket expressions, the following character sets are used:
 | `-` | Match literal hyphens. |
 | `\d` | Match any digit from 0 to 9.  Effectively the same as using `0-9`. |
 | `@` | Match literal at signs.  Found following the first parenthetical group in our email RegEx. |
+
+#### Example
+A RegEx search of `/\b[a-z]{4}\b/` on the string "today's date is 2/26" will match the word four-letter word "date".  Although "2/26" is also a four-character string within the appropriate word boundaries, it contains characters that are not included in `a-z`.
 ### Flags
 
 ### Grouping and Capturing
