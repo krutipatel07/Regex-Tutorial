@@ -6,35 +6,62 @@ In addition to being powerful search tools, regular expressions can be applied t
 
 ## Summary
 
-Briefly summarize the regex you will be describing and what you will explain. Include a code snippet of the regex. Replace this text with your summary.
+In this gist, we will introduce JavaScript regular expressions using the following RegEx for matching an email address.
+```
+/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+```
+We will dissect the above RegEx into components and elaborate on each.
 
 ## Table of Contents
-
-- [Anchors](#anchors)
-- [Quantifiers](#quantifiers)
-- [OR Operator](#or-operator)
-- [Character Classes](#character-classes)
-- [Flags](#flags)
+- [Anchors and Boundaries](#anchors-and-boundaries)
 - [Grouping and Capturing](#grouping-and-capturing)
 - [Bracket Expressions](#bracket-expressions)
-- [Greedy and Lazy Match](#greedy-and-lazy-match)
-- [Boundaries](#boundaries)
-- [Back-references](#back-references)
-- [Look-ahead and Look-behind](#look-ahead-and-look-behind)
+- [Character Classes](#character-classes)
+- [Quantifiers](#quantifiers)
+- [Conclusion](#conclusion)
+- [Author](#author)
 
 ## Regex Components
 
-### Anchors
-Anchors are special characters that identify the position of the searched text.  A caret (`^`) anchor identifies the beginning of a string while a dollar sign (`$`) identifies the end of a string.  A word boundary anchor (`\b`) is used to identify the beginning or end of a word.  Without anchors, the RegEx will search for the identified pattern within any position of a given string. 
+### Anchors and Boundaries
+In our regular expression for matching an email address, we have surrounded our RegEx search with the anchors `^` and `$` to identify that the enclosed search pattern should not have any other characters, including spaces, before or after it.  It should also be noted that all regular expression searches begin and end with a forward slash (`/`).
 
-### Quantifiers
-Finally, quantifiers identify how the number of occurrences of the preceeding characters from either the literal character or character set.  Our email RegEx uses a plus (`+`) and brace (`{...}`) quantifiers, as seen here: `([...]+)@([...]+)\.([...]{2,6})`.  The presence of the plus signifies a match for any of the characters found in the preceeding bracket expression at least one time.  The brace specifies a range of matches from `2` to `6` of the characters found in the preceeding bracket expression.
+Anchors are special characters that identify the position of the searched text.  A caret (`^`) anchor identifies the beginning of a string while a dollar sign (`$`) identifies the end of a string.  A word boundary anchor (`\b`) is used to identify the beginning or end of a word.  Without anchors, the RegEx will search for the identified pattern within any position of a given string.
+
 #### Example
-A RegEx search of `/[a-z\d]{2, 8}@email\.com/` will match the email "l33tc0de@email.com" but not "ilove2code@email.com".  The local-part of the latter is ten characters in length and does not meet the quantifier requirements.
+A RegEx search of `/hat/` on "that hat" will return "t***hat*** ***hat***" with both instances of the letter combination "hat" because it does not discriminate the positioning within the string.  A search of `/hat$/` will find "that ***hat***," matching only the "hat" located at the end of the string.  Additionally, `/^hat/` will return no matches, as there are no instances of the pattern "hat" located at the beginning of a string.  Finally, to locate only instances of the word "hat," enclose the RegEx search in word boundaries (`/\bhat\b/`).
 
-### OR Operator
+### Grouping and Capturing
+After removing our anchors from our email RegEx, we are left with the following.
+```
+([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})
+```
+Note that there are three sets of parentheses in this regular expression: `(...)@(...)\.(...)` where the  `...` replaces expressions we will discuss later.
+
+Parentheses do not affect the results of the search pattern, but instead group and capture sections of the pattern together.  By default, the entire string is Group 0.  Each subsequent parenthetical captured group is Group 1, Group 2, Group 3, etc.  Captured groups can then be referenced as needed.
+
+#### Example
+In the following example, we will use our email RegEx, assigned to the `re` variable, on the email address "johndoe@email.com," assigned in the `email` variable.  We can then refer to specific groups within our email address as needed.
+```
+const email = 'johndoe@email.com'
+const re = email.match(/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/)
+
+console.log(re[0]) //=> prints "johndoe@email.com"
+console.log(re[1]) //=> prints "johndoe"
+console.log(re[2]) //=> prints "email"
+console.log(re[3]) //=> prints "com"
+```
+As you may have noticed, this looks similar to referencing an array, and that's because it is!  Running `console.log(re)` would print an array of `['johndoe@email.com', 'johndoe', 'email', 'com']`.
+
+### Bracket Expressions
+Next in our email RegEx, we have three sets of bracket expressions.  Simply put, a bracket expression contains a list of characters enclosed in brackets (`[` and `]`).  This will perform a search of any character found within this list.  However, if the bracket expression begins with a caret (`^`), then the search will **exclude** all characters from that list.
+
+#### Example
+Our RegEx contains three bracket expressions: `[a-z0-9_\.-]`, `[\da-z\.-]`, and `[a-z\.]`.  The character lists will be explained further in the next section.
 
 ### Character Classes
+Character classes identify the set of characters to be matched and are often, but not exclusively, used in conjunction with bracket expressions.
+
 In our above bracket expressions, the following character sets are used:
 | Character Class | Meaning |
 | ----------- | ----------- |
@@ -48,26 +75,41 @@ In our above bracket expressions, the following character sets are used:
 
 #### Example
 A RegEx search of `/\b[a-z]{4}\b/` on the string "today's date is 2/26" will match the word four-letter word "date".  Although "2/26" is also a four-character string within the appropriate word boundaries, it contains characters that are not included in `a-z`.
-### Flags
 
-### Grouping and Capturing
-After removing our anchors from our email RegEx, we are left with the following.
+### Quantifiers
+Finally, quantifiers identify how the number of occurrences of the preceeding characters from either the literal character or character set.  Our email RegEx uses a plus (`+`) and brace (`{...}`) quantifiers, as seen here: `([...]+)@([...]+)\.([...]{2,6})`.  The presence of the plus signifies a match for any of the characters found in the preceeding bracket expression at least one time.  The brace specifies a range of matches from `2` to `6` of the characters found in the preceeding bracket expression.
+
+#### Example
+A RegEx search of `/[a-z\d]{2, 8}@email\.com/` will match the email "l33tc0de@email.com" but not "ilove2code@email.com".  The local-part of the latter is ten characters in length and does not meet the quantifier requirements.
+
+### Conclusion
+Now that we've dissected our email RegEx, let's put it back together and evaluate what our match might look like.  Recall that the original RegEx is as follows.
 ```
-([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})
+/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
 ```
-Note that there are three sets of parentheses in this regular expression: `(...)@(...)\.(...)` where the  `...` replaces expressions we will discuss later.
+This regular expression will match a string containing a combination of **one or more** characters consisting of...
 
-Parentheses do not affect the results of the search pattern, but instead group and capture sections of the pattern together.  By default, the entire string is Group 0.  Each subsequent parenthetical captured group is Group 1, Group 2, Group 3, etc.  Captured groups can then be referenced as needed.
-### Bracket Expressions
-Next in our email RegEx, we have three sets of bracket expressions.  Simply put, a bracket expression contains a list of characters enclosed in brackets (`[` and `]`).  This will perform a search of any character found within this list.  However, if the bracket expression begins with a caret (`^`), then the search will **exclude** all characters from that list.
+- any *lowercase* letters from a-z
+- any digit from 0-9
+- underscores
+- dots, or
+- hyphens
 
-### Greedy and Lazy Match
+... followed by a *literal* `@`, followed by a combination of **one or more** characters consisting of...
 
-### Boundaries
+- any digit from 0-9
+- any *lowercase* letters from a-z
+- dots, or
+- hyphens
 
-### Back-references
+... followed by a *literal* `.`, followed by a combination of **two to six** characters consisting of...
 
-### Look-ahead and Look-behind
+- any *lowercase* letters from a-z, or
+- dots
+
+The match also cannot have *any* characters preceeding or following it, including spaces.
+
+That was a lot!  And there is still plenty more to explore with RegEx, including greedy and lazy matches, look-aheads and look-behinds, and other special characters not discussed here.  For more information on regular expressions, check out [MDN Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)!
 
 ## Author
 
