@@ -71,4 +71,4 @@ Next in our email RegEx, we have three sets of bracket expressions.  Simply put,
 
 ## Author
 
-This gist was written by Kruti Patel, a forensic investigator turned full-stack developer.  To see more of kruti's work, please visit her [GitHub](https://github.com/krutipatel07).
+This gist was written by Kruti Patel, a lazy girl turned full-stack developer.  To see more of kruti's work, please visit her [GitHub](https://github.com/krutipatel07).
