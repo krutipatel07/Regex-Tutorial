@@ -1,4 +1,4 @@
-# RegEx Tutorial
+# Regex Tutorial
 This repository is merely a placeholder to direct to my UCF Coding Boot Camp Week 17 Challenge Assignment: a RegEx tutorial. The tutorial was published as a [GitHub Gist](https://gist.github.com/krutipatel07/4b87a53f6d397a87e450be960a1ea3eb).
 
 
