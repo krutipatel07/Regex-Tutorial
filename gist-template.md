@@ -25,18 +25,35 @@ Briefly summarize the regex you will be describing and what you will explain. In
 ## Regex Components
 
 ### Anchors
+Anchors are special characters that identify the position of the searched text.  A caret (`^`) anchor identifies the beginning of a string while a dollar sign (`$`) identifies the end of a string.  A word boundary anchor (`\b`) is used to identify the beginning or end of a word.  Without anchors, the RegEx will search for the identified pattern within any position of a given string. 
 
 ### Quantifiers
 
 ### OR Operator
 
 ### Character Classes
-
+In our above bracket expressions, the following character sets are used:
+| Character Class | Meaning |
+| ----------- | ----------- |
+| `a-z` | Match any letter within the range of lowercase a to lowercase z. |
+| `0-9` | Match any number from 0 to 9. |
+| `_` | Match literal underscores. |
+| `\.` | Match literals dot (`.`).  Dots have special functions in regular expression.  The backslash (`\`) is used to escape the character. |
+| `-` | Match literal hyphens. |
+| `\d` | Match any digit from 0 to 9.  Effectively the same as using `0-9`. |
+| `@` | Match literal at signs.  Found following the first parenthetical group in our email RegEx. |
 ### Flags
 
 ### Grouping and Capturing
+After removing our anchors from our email RegEx, we are left with the following.
+```
+([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})
+```
+Note that there are three sets of parentheses in this regular expression: `(...)@(...)\.(...)` where the  `...` replaces expressions we will discuss later.
 
+Parentheses do not affect the results of the search pattern, but instead group and capture sections of the pattern together.  By default, the entire string is Group 0.  Each subsequent parenthetical captured group is Group 1, Group 2, Group 3, etc.  Captured groups can then be referenced as needed.
 ### Bracket Expressions
+Next in our email RegEx, we have three sets of bracket expressions.  Simply put, a bracket expression contains a list of characters enclosed in brackets (`[` and `]`).  This will perform a search of any character found within this list.  However, if the bracket expression begins with a caret (`^`), then the search will **exclude** all characters from that list.
 
 ### Greedy and Lazy Match
 
